@@ -1,3 +1,5 @@
+import { LinkedList } from "./linkedList";
+
 export class HashMap {
   constructor(loadFactor = 0.75, capacity = 16) {
     this.buckets = new Array(capacity).fill().map(() => new LinkedList());
@@ -77,14 +79,35 @@ export class HashMap {
   }
 
   keys() {
-    return this.buckets.filter((buck) => buck !== null).map((buck) => [buck.key]);
+    return this.buckets.reduce((allKeys, buck) => {
+      if (buck.size() === 0) return allKeys;
+
+      const keyList = buck.list.map((node) => node.value.key);
+      allKeys.push(...keyList);
+
+      return allKeys;
+    }, []);
   }
 
   values() {
-    return this.buckets.filter((buck) => buck !== null).map((buck) => [buck.value]);
+    return this.buckets.reduce((allValues, buck) => {
+      if (buck.size() === 0) return allValues;
+
+      const valueList = buck.list.map((node) => node.value.value);
+      allValues.push(...valueList);
+
+      return allValues;
+    }, []);
   }
 
   entries() {
-    return this.buckets.filter((buck) => buck !== null).map((buck) => [buck.key, buck.value]);
+    return this.buckets.reduce((allEntries, buck) => {
+      if (buck.size() === 0) return allEntries;
+
+      const entryList = buck.list.map((node) => [node.value.key, node.value.value]);
+      allEntries.push(...entryList);
+
+      return allEntries;
+    }, []);
   }
 }
