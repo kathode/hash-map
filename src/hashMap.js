@@ -23,8 +23,6 @@ export class HashMap {
   }
 
   set(key, value) {
-    const index = this.hash(key);
-
     if (this.isResize()) {
       const entries = this.entries();
 
@@ -36,6 +34,8 @@ export class HashMap {
         this.set(key, value);
       }
     }
+
+    const index = this.hash(key);
 
     if (this.buckets[index].contains(key)) {
       // update value
