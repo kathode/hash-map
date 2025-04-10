@@ -1,6 +1,6 @@
 export class HashMap {
-  constructor(loadFactor = 0.8, capacity = 16) {
-    this.buckets = new Array(capacity).fill(null).map(() => []);
+  constructor(loadFactor = 0.75, capacity = 16) {
+    this.buckets = new Array(capacity).fill().map(() => new LinkedList());
     this.loadFactor = loadFactor;
     this.capacity = capacity;
   }
