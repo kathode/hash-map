@@ -38,18 +38,17 @@ export class LinkedList {
     this.list.pop();
   }
 
-  contains(value) {
-    return this.list.some((l) => l.value === value);
+  contains(key) {
+    return this.list.some((l) => l.value.key === key);
   }
 
-  find(value) {
+  find(key) {
     for (const index in this.list) {
-      if (this.list[index].value === value) {
+      if (this.list[index].value.key === key) {
         return Number(index);
-      } else {
-        return null;
       }
     }
+    return null;
   }
 
   toString() {
