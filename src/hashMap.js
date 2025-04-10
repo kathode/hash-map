@@ -55,8 +55,13 @@ export class HashMap {
 
   get(key) {
     const index = this.hash(key);
+    const targetIndex = this.buckets[index].find(key);
 
-    return this.buckets[index];
+    if (targetIndex === null) {
+      return null;
+    } else {
+      return this.buckets[index].list[targetIndex].value.value;
+    }
   }
 
   has(key) {
