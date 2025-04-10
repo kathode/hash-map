@@ -71,7 +71,7 @@ export class HashMap {
   }
 
   length() {
-    return this.buckets.filter((buck) => buck !== null).length;
+    return this.buckets.reduce((total, buck) => (total += buck.size()), 0);
   }
 
   clear() {
