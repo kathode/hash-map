@@ -50,9 +50,9 @@ export class HashMap {
   }
 
   has(key) {
-    const index = hash(key);
+    const index = this.hash(key);
 
-    if (this.buckets[index] === key) {
+    if (this.buckets[index].contains(key)) {
       return true;
     } else {
       return false;
@@ -61,9 +61,11 @@ export class HashMap {
 
   remove(key) {
     if (this.has(key)) {
-      const index = hash(key);
+      const index = this.hash(key);
 
-      this.buckets[index] = null;
+      const targetIndex = this.buckets[index].find(key);
+      this.buckets[index].removeAt(targetIndex);
+
       return true;
     } else {
       return false;
@@ -75,7 +77,8 @@ export class HashMap {
   }
 
   clear() {
-    this.buckets = new Array(capacity).fill(null).map(() => []);
+    this.capacity = 16;
+    this.buckets = new Array(this.capacity).fill().map(() => new LinkedList());
   }
 
   keys() {
