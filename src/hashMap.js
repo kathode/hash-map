@@ -42,13 +42,9 @@ export class HashMap {
   }
 
   get(key) {
-    const index = hash(key);
+    const index = this.hash(key);
 
-    if (index < 0 || index >= this.buckets.length) {
-      throw new Error("Trying to access index out of bounds");
-    } else {
-      return this.buckets[index];
-    }
+    return this.buckets[index];
   }
 
   has(key) {
