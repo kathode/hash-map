@@ -21,8 +21,24 @@ export class HashMap {
   }
 
   set(key, value) {
-    const index = hash(key);
-    this.buckets[index] = { key, value };
+    const index = this.hash(key);
+
+    // const load = this.loadFactor * this.capacity;
+    // if (this.length() > load) {
+    //   const bucketCopy = [...this.buckets];
+    //   this.buckets = [...bucketCopy, new Array(this.capacity).fill().map(() => [])];
+    //   this.capacity *= 2;
+    // }
+
+    if (this.buckets[index].contains(key)) {
+      // update value
+      const subIndex = this.buckets[index].find(key);
+      this.buckets[index].removeAt(subIndex);
+      this.buckets[index].insertAt({ key, value }, subIndex);
+    } else {
+      // add new entry
+      this.buckets[index].append({ key, value });
+    }
   }
 
   get(key) {
