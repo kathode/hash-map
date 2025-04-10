@@ -13,7 +13,11 @@ export class HashMap {
       hashCode = (primeNumber * hashCode + key.charCodeAt(i)) % this.capacity;
     }
 
-    return hashCode;
+    if (hashCode < 0 || hashCode >= this.buckets.length) {
+      throw new Error("Trying to access index out of bounds");
+    } else {
+      return hashCode;
+    }
   }
 
   set(key, value) {
