@@ -25,12 +25,17 @@ export class HashMap {
   set(key, value) {
     const index = this.hash(key);
 
-    // const load = this.loadFactor * this.capacity;
-    // if (this.length() > load) {
-    //   const bucketCopy = [...this.buckets];
-    //   this.buckets = [...bucketCopy, new Array(this.capacity).fill().map(() => [])];
-    //   this.capacity *= 2;
-    // }
+    if (this.isResize()) {
+      const entries = this.entries();
+
+      this.capacity *= 2;
+      this.buckets = [...new Array(this.capacity).fill().map(() => new LinkedList())];
+
+      // rehash to spread out entries evenly on new capacity
+      for (const [key, value] of entries) {
+        this.set(key, value);
+      }
+    }
 
     if (this.buckets[index].contains(key)) {
       // update value
@@ -41,6 +46,11 @@ export class HashMap {
       // add new entry
       this.buckets[index].append({ key, value });
     }
+  }
+
+  isResize() {
+    const upperLimit = this.loadFactor * this.capacity;
+    return this.length() > upperLimit;
   }
 
   get(key) {
